@@ -1,3 +1,9 @@
+# GitHub's Node.gitignore template
+.gitignore
+# Temporales del sistema operativo
+.DS_Store
+Thumbs.db
+
 # Logs
 logs
 *.log
