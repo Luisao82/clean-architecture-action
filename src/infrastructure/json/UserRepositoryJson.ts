@@ -10,13 +10,38 @@ interface UserJson {
   createdAt: string;
 }
 
-// Usar una ruta relativa desde el root del proyecto
-const DATA_FILE = path.join(process.cwd(), 'data', 'users.json');
+const isVercel = !!process.env.VERCEL;
+
+// En Vercel: leer desde el bundle deployado, escribir en /tmp
+// En local: usar el directorio del proyecto
+const SOURCE_DATA_FILE = path.join(__dirname, '../../../data/users.json');
+const WRITABLE_DATA_FILE = isVercel
+  ? path.join('/tmp', 'users.json')
+  : path.join(__dirname, '../../../data/users.json');
 
 export class UserRepositoryJson implements IUserRepository {
-  private async readData(): Promise<UserJson[]> {
+  private initialized = false;
+
+  private async ensureWritableFile(): Promise<void> {
+    if (this.initialized || !isVercel) return;
     try {
-      const data = await fs.readFile(DATA_FILE, 'utf-8');
+      await fs.access(WRITABLE_DATA_FILE);
+    } catch {
+      // Copiar datos iniciales al directorio writable
+      try {
+        const data = await fs.readFile(SOURCE_DATA_FILE, 'utf-8');
+        await fs.writeFile(WRITABLE_DATA_FILE, data, 'utf-8');
+      } catch {
+        await fs.writeFile(WRITABLE_DATA_FILE, '[]', 'utf-8');
+      }
+    }
+    this.initialized = true;
+  }
+
+  private async readData(): Promise<UserJson[]> {
+    await this.ensureWritableFile();
+    try {
+      const data = await fs.readFile(WRITABLE_DATA_FILE, 'utf-8');
       return JSON.parse(data);
     } catch (error) {
       return [];
@@ -24,8 +49,9 @@ export class UserRepositoryJson implements IUserRepository {
   }
 
   private async writeData(users: UserJson[]): Promise<void> {
-    await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
-    await fs.writeFile(DATA_FILE, JSON.stringify(users, null, 2), 'utf-8');
+    await this.ensureWritableFile();
+    await fs.mkdir(path.dirname(WRITABLE_DATA_FILE), { recursive: true });
+    await fs.writeFile(WRITABLE_DATA_FILE, JSON.stringify(users, null, 2), 'utf-8');
   }
 
   async save(user: User): Promise<User> {

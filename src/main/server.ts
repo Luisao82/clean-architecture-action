@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import { UserRepositoryJson } from '../infrastructure/json/UserRepositoryJson';
 import { CreateUserUseCase } from '../usecases/CreateUserUseCase';
 import { UserController } from '../adapters/UserController';
@@ -9,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware para parsear JSON
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, '../../public')));
 
 // Crear instancias de las capas
 const userRepository = new UserRepositoryJson();
@@ -21,9 +22,15 @@ app.use('/api', createRoutes(userController));
 
 // Ruta principal
 app.get('/', (req, res) => {
-  res.sendFile(process.cwd() + '/public/index.html');
+  res.sendFile(path.join(__dirname, '../../public/index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+// Exportar app para Vercel (serverless)
+export default app;
+
+// Solo hacer listen en desarrollo local
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+}
