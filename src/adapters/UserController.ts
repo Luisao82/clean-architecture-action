@@ -25,7 +25,7 @@ export class UserController {
         user: UserPresenter.toJson(user),
       });
     } catch (error) {
-      res.status(500).json({ error: 'Failed to create user' });
+      res.status(500).json({ error: 'Failed to create user: ' + error });
     }
   }
 
@@ -34,7 +34,7 @@ export class UserController {
       const users = await this.userRepository.findAll();
       res.status(200).json({ users: users.map(UserPresenter.toJson) });
     } catch (error) {
-      res.status(500).json({ error: 'Failed to list users' });
+      res.status(500).json({ error: 'Failed to list users: ' + error });
     }
   }
 }
