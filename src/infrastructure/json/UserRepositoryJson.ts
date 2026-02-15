@@ -44,7 +44,7 @@ export class UserRepositoryJson implements IUserRepository {
       const data = await fs.readFile(WRITABLE_DATA_FILE, "utf-8");
       return JSON.parse(data);
     } catch (error) {
-      //console.error("Error reading user data:", error);
+      console.error("Error reading user data:", error);
       return [];
     }
   }
