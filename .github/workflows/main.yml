@@ -18,7 +18,7 @@ jobs:
           cache: 'npm'
 
       - run: npm ci
-      - run: npm lint
+      - run: npm run lint
       - run: npm run build
 
   deploy:
@@ -35,7 +35,7 @@ jobs:
           node-version: 20
 
       - run: npm ci
-      - run: npm lint
+      - run: npm run lint
       - run: npm run build
 
       - run: npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --yes
