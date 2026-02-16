@@ -23,6 +23,12 @@ const userController = new UserController(deleteUserUseCase, createUserUseCase, 
 // Configurar rutas
 app.use('/api', createRoutes(userController));
 
+// Endpoint para obtener la version de la app
+app.get('/api/version', (req, res) => {
+  const { version } = require('../../package.json');
+  res.json({ version });
+});
+
 // Ruta principal
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../../public/index.html'));

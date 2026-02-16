@@ -141,6 +141,14 @@
         background: #fed7d7;
         color: #742a2a;
       }
+      .app-footer {
+        text-align: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #e9ecef;
+        color: #a0aec0;
+        font-size: 0.85rem;
+      }
     </style>
   </head>
   <body>
@@ -170,6 +178,10 @@
             <p>No hay usuarios registrados aún.</p>
           </div>
         </div>
+      </div>
+
+      <div class="app-footer">
+        <p>v<span id="appVersion">...</span></p>
       </div>
     </div>
 
@@ -297,8 +309,20 @@
           }
         }
       });
-      // Load users on page load
+      async function loadVersion() {
+        try {
+          const response = await fetch("/api/version");
+          const data = await response.json();
+          document.getElementById("appVersion").textContent = data.version;
+        } catch (error) {
+          console.error("Error loading version:", error);
+          document.getElementById("appVersion").textContent = "-";
+        }
+      }
+
+      // Load users and version on page load
       loadUsers();
+      loadVersion();
     </script>
   </body>
 </html>
