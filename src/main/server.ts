@@ -1,38 +1,47 @@
-import express from 'express';
-import path from 'node:path';
-import { UserRepositoryJson } from '../infrastructure/json/UserRepositoryJson';
-import { CreateUserUseCase } from '../usecases/CreateUserUseCase';
-import { UserController } from '../adapters/UserController';
-import { createRoutes } from '../adapters/routes';
-import { DeleteUserUseCase } from '../usecases/DeleteUserUseCase';
-
+import express from "express";
+import path from "node:path";
+import { UserRepositoryJson } from "../infrastructure/json/UserRepositoryJson";
+import { CreateUserUseCase } from "../usecases/CreateUserUseCase";
+import { UserController } from "../adapters/UserController";
+import { createRoutes } from "../adapters/routes";
+import { DeleteUserUseCase } from "../usecases/DeleteUserUseCase";
+import { version } from "../../package.json";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware para parsear JSON
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../../public')));
+app.use(express.static(path.join(__dirname, "../../public")));
 
 // Crear instancias de las capas
 const userRepository = new UserRepositoryJson();
 const createUserUseCase = new CreateUserUseCase(userRepository);
 const deleteUserUseCase = new DeleteUserUseCase(userRepository);
-const userController = new UserController(deleteUserUseCase, createUserUseCase, userRepository);
+const userController = new UserController(
+  deleteUserUseCase,
+  createUserUseCase,
+  userRepository,
+);
 
 // Configurar rutas
-app.use('/api', createRoutes(userController));
+app.use("/api", createRoutes(userController));
+
+// Endpoint para obtener la version de la app
+app.get("/api/version", (req, res) => {
+  res.json({ version });
+});
 
 // Ruta principal
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../public/index.html'));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../../public/index.html"));
 });
 
 // Exportar app para Vercel (serverless)
 export default app;
 
 // Solo hacer listen en desarrollo local
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
