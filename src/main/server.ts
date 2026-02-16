@@ -1,9 +1,11 @@
 import express from 'express';
-import path from 'path';
+import path from 'node:path';
 import { UserRepositoryJson } from '../infrastructure/json/UserRepositoryJson';
 import { CreateUserUseCase } from '../usecases/CreateUserUseCase';
 import { UserController } from '../adapters/UserController';
 import { createRoutes } from '../adapters/routes';
+import { DeleteUserUseCase } from '../usecases/DeleteUserUseCase';
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,7 +17,8 @@ app.use(express.static(path.join(__dirname, '../../public')));
 // Crear instancias de las capas
 const userRepository = new UserRepositoryJson();
 const createUserUseCase = new CreateUserUseCase(userRepository);
-const userController = new UserController(createUserUseCase, userRepository);
+const deleteUserUseCase = new DeleteUserUseCase(userRepository);
+const userController = new UserController(deleteUserUseCase, createUserUseCase, userRepository);
 
 // Configurar rutas
 app.use('/api', createRoutes(userController));

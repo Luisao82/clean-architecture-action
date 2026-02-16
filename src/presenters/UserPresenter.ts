@@ -1,4 +1,4 @@
-import { User } from '../entities/User';
+import { User } from "../entities/User";
 
 export class UserPresenter {
   static toJson(user: User): {
@@ -21,17 +21,18 @@ export class UserPresenter {
         <h3>${this.escapeHtml(user.name)}</h3>
         <p><strong>Email:</strong> ${this.escapeHtml(user.email)}</p>
         <p><small>Created: ${user.createdAt.toLocaleString()}</small></p>
+        <button data-user-id="${user.id}" class="delete-user-btn">Delete</button>
       </article>
     `;
   }
 
   private static escapeHtml(text: string): string {
     const map: Record<string, string> = {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#039;',
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;",
     };
     return text.replace(/[&<>"']/g, (char) => map[char]);
   }
