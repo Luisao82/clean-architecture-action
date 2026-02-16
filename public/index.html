@@ -1,256 +1,304 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestión de Usuarios</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      padding: 40px 20px;
-    }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-      padding: 40px;
-    }
-    h1 {
-      color: #333;
-      margin-bottom: 30px;
-      text-align: center;
-      font-size: 2rem;
-    }
-    .form-section {
-      background: #f8f9fa;
-      padding: 30px;
-      border-radius: 12px;
-      margin-bottom: 30px;
-    }
-    .form-section h2 {
-      color: #495057;
-      margin-bottom: 20px;
-      font-size: 1.25rem;
-    }
-    .form-group {
-      margin-bottom: 20px;
-    }
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      color: #495057;
-      font-weight: 500;
-    }
-    .form-group input {
-      width: 100%;
-      padding: 12px 16px;
-      border: 2px solid #e9ecef;
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .form-group input:focus {
-      outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
-    }
-    .btn {
-      width: 100%;
-      padding: 14px 20px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-    }
-    .btn:active {
-      transform: translateY(0);
-    }
-    .users-section h2 {
-      color: #495057;
-      margin-bottom: 20px;
-      font-size: 1.25rem;
-    }
-    .user-card {
-      background: #f8f9fa;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 12px;
-      border-left: 4px solid #667eea;
-      transition: transform 0.2s;
-    }
-    .user-card:hover {
-      transform: translateX(5px);
-    }
-    .user-card h3 {
-      color: #2d3748;
-      margin-bottom: 8px;
-      font-size: 1.1rem;
-    }
-    .user-card p {
-      color: #718096;
-      font-size: 0.95rem;
-    }
-    .user-card p strong {
-      color: #4a5568;
-    }
-    .empty-state {
-      text-align: center;
-      padding: 40px 20px;
-      color: #a0aec0;
-    }
-    .empty-state p {
-      font-size: 1rem;
-    }
-    .message {
-      padding: 12px 16px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      display: none;
-    }
-    .message.show {
-      display: block;
-    }
-    .message.success {
-      background: #c6f6d5;
-      color: #22543d;
-    }
-    .message.error {
-      background: #fed7d7;
-      color: #742a2a;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1> Gestión de Usuarios 👤</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestión de Usuarios</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+          sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 40px 20px;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        padding: 40px;
+      }
+      h1 {
+        color: #333;
+        margin-bottom: 30px;
+        text-align: center;
+        font-size: 2rem;
+      }
+      .form-section {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+      }
+      .form-section h2 {
+        color: #495057;
+        margin-bottom: 20px;
+        font-size: 1.25rem;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #495057;
+        font-weight: 500;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+      }
+      .form-group input:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+      }
+      .btn {
+        width: 100%;
+        padding: 14px 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      }
+      .btn:active {
+        transform: translateY(0);
+      }
+      .users-section h2 {
+        color: #495057;
+        margin-bottom: 20px;
+        font-size: 1.25rem;
+      }
+      .user-card {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 12px;
+        border-left: 4px solid #667eea;
+        transition: transform 0.2s;
+      }
+      .user-card:hover {
+        transform: translateX(5px);
+      }
+      .user-card h3 {
+        color: #2d3748;
+        margin-bottom: 8px;
+        font-size: 1.1rem;
+      }
+      .user-card p {
+        color: #718096;
+        font-size: 0.95rem;
+      }
+      .user-card p strong {
+        color: #4a5568;
+      }
+      .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: #a0aec0;
+      }
+      .empty-state p {
+        font-size: 1rem;
+      }
+      .message {
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        display: none;
+      }
+      .message.show {
+        display: block;
+      }
+      .message.success {
+        background: #c6f6d5;
+        color: #22543d;
+      }
+      .message.error {
+        background: #fed7d7;
+        color: #742a2a;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Gestión de Usuarios 👤</h1>
 
-    <div class="form-section">
-      <h2> Nuevo Usuario</h2>
-      <form id="userForm">
-        <div class="form-group">
-          <label for="name">Nombre</label>
-          <input type="text" id="name" name="name" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required>
-        </div>
-        <button type="submit" class="btn">Crear Usuario</button>
-      </form>
-      <div id="message" class="message"></div>
-    </div>
+      <div class="form-section">
+        <h2>Nuevo Usuario</h2>
+        <form id="userForm">
+          <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="text" id="name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <button type="submit" class="btn">Crear Usuario</button>
+        </form>
+        <div id="message" class="message"></div>
+      </div>
 
-    <div class="users-section">
-      <h2>Usuarios Registrados</h2>
-      <div id="usersList">
-        <div class="empty-state">
-          <p>No hay usuarios registrados aún.</p>
+      <div class="users-section">
+        <h2>Usuarios Registrados</h2>
+        <div id="usersList">
+          <div class="empty-state">
+            <p>No hay usuarios registrados aún.</p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <script>
-    const form = document.getElementById('userForm');
-    const messageEl = document.getElementById('message');
-    const usersListEl = document.getElementById('usersList');
+    <script>
+      const form = document.getElementById("userForm");
+      const messageEl = document.getElementById("message");
+      const usersListEl = document.getElementById("usersList");
 
-    function showMessage(text, type) {
-      messageEl.textContent = text;
-      messageEl.className = `message show ${type}`;
-      setTimeout(() => {
-        messageEl.className = 'message';
-      }, 3000);
-    }
-
-    async function loadUsers() {
-      try {
-        const response = await fetch('/api/users');
-        const data = await response.json();
-        renderUsers(data.users);
-      } catch (error) {
-        console.error('Error loading users:', error);
+      function showMessage(text, type) {
+        messageEl.textContent = text;
+        messageEl.className = `message show ${type}`;
+        setTimeout(() => {
+          messageEl.className = "message";
+        }, 3000);
       }
-    }
 
-    function renderUsers(users) {
-      if (users.length === 0) {
-        usersListEl.innerHTML = `
+      async function loadUsers() {
+        try {
+          const response = await fetch("/api/users");
+          const data = await response.json();
+          renderUsers(data.users);
+        } catch (error) {
+          console.error("Error loading users:", error);
+        }
+      }
+
+      function renderUsers(users) {
+        if (users.length === 0) {
+          usersListEl.innerHTML = `
           <div class="empty-state">
             <p>No hay usuarios registrados aún.</p>
           </div>
         `;
-        return;
-      }
-
-      usersListEl.innerHTML = users.map(user => `
-        <article class="user-card">
-          <h3>${escapeHtml(user.name)}</h3>
-          <p><strong>Email:</strong> ${escapeHtml(user.email)}</p>
-          <p><small>Creado: ${new Date(user.createdAt).toLocaleString('es-ES')}</small></p>
-        </article>
-      `).join('');
-    }
-
-    function escapeHtml(text) {
-      const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-      };
-      return text.replace(/[&<>"']/g, char => map[char]);
-    }
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-
-      try {
-        const response = await fetch('/api/users', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ name, email })
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          showMessage('¡Usuario creado correctamente!', 'success');
-          form.reset();
-          loadUsers();
-        } else {
-          showMessage(data.error || 'Error al crear el usuario', 'error');
+          return;
         }
-      } catch (error) {
-          showMessage('Error de conexión', 'error');
-      }
-    });
 
-    // Load users on page load
-    loadUsers();
-  </script>
-</body>
+        usersListEl.innerHTML = users
+          .map(
+            (user) => `
+        <article class="user-card">
+          <!-- vamos a poner el nombre a la izquierad y y el boton de eliminar a la derecha --> 
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3>${escapeHtml(user.name)}</h3>
+            <div data-user-id="${user.id}" data-user-name="${escapeHtml(user.name)}" class="delete-user-btn">❌</div>
+          </div>
+          <p><strong>Email:</strong> ${escapeHtml(user.email)}</p>
+          <p><small>Creado: ${new Date(user.createdAt).toLocaleString("es-ES")}</small></p>
+          
+          
+        </article>
+      `,
+          )
+          .join("");
+      }
+
+      function escapeHtml(text) {
+        const map = {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#039;",
+        };
+        return text.replace(/[&<>"']/g, (char) => map[char]);
+      }
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+
+        try {
+          const response = await fetch("/api/users", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ name, email }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            showMessage("¡Usuario creado correctamente!", "success");
+            form.reset();
+            loadUsers();
+          } else {
+            showMessage(data.error || "Error al crear el usuario", "error");
+          }
+        } catch (error) {
+          console.error("Error creating user:", error);
+          showMessage("Error de conexión", "error");
+        }
+      });
+
+      document.addEventListener("click", async (e) => {
+        if (e.target.classList.contains("delete-user-btn")) {
+          const userId = e.target.dataset.userId;
+          if (
+            confirm(
+              `¿Estás seguro de que deseas eliminar este usuario: ${e.target.dataset.userName}?`,
+            )
+          ) {
+            try {
+              const response = await fetch(`/api/users/${userId}`, {
+                method: "DELETE",
+              });
+
+              const data = await response.json();
+
+              if (response.ok) {
+                showMessage("¡Usuario eliminado correctamente!", "success");
+                loadUsers();
+              } else {
+                showMessage(
+                  data.error || "Error al eliminar el usuario",
+                  "error",
+                );
+              }
+            } catch (error) {
+              console.error("Error deleting user:", error);
+              showMessage("Error de conexión", "error");
+            }
+          }
+        }
+      });
+      // Load users on page load
+      loadUsers();
+    </script>
+  </body>
 </html>

@@ -6,6 +6,7 @@ export function createRoutes(userController: UserController): Router {
 
   router.post('/users', (req, res) => userController.create(req, res));
   router.get('/users', (req, res) => userController.list(req, res));
+  router.delete('/users/:id', (req, res) => userController.delete(req, res)) ;
 
   return router;
 }

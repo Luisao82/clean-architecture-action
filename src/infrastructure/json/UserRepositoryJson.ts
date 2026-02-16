@@ -1,5 +1,5 @@
-import fs from "fs/promises";
-import path from "path";
+import fs from "node:fs/promises";
+import path from "node:path";
 import { User } from "../../entities/User";
 import { IUserRepository } from "../../repositories/IUserRepository";
 
@@ -70,6 +70,12 @@ export class UserRepositoryJson implements IUserRepository {
     users.push(newUser);
     await this.writeData(users);
     return user;
+  }
+
+  async delete(user: User): Promise<void> {
+    const users = await this.readData();
+    const filteredUsers = users.filter((u) => u.id !== user.id);
+    await this.writeData(filteredUsers);
   }
 
   async findById(id: string): Promise<User | null> {
